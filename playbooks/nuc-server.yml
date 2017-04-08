@@ -1,0 +1,21 @@
+---
+  - hosts: servers
+    become: true
+
+    tasks:
+      - name: install web components
+        apt: name={{item}} state=present update_cache=yes
+        with_items:
+          - nginx
+          - python-pip
+          - python-virtualenv
+
+      - name: ensure nginx is started
+        service: name=nginx state=started enabled=yes
+        notify: restart nginx
+
+      - name: copy nginx config and
+
+    handlers:
+      - name: restart nginx
+        service: name=nginx state=restarted
