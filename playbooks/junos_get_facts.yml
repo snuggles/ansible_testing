@@ -1,0 +1,17 @@
+---
+- name: Get Device Facts
+  hosts: firewalls:switches
+  roles:
+  - Juniper.junos
+  connection: local
+  gather_facts: no
+
+  tasks:
+  - include: ../tasks/check_nc
+
+  - name: Retrieve information from devices running Junos OS
+    junos_get_facts: host={{ inventory_hostname }}
+    register: junos
+
+  - name: version
+    debug: msg="{{ junos.facts.version }}"
